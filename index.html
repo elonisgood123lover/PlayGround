@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sandbox 2D — Playground Mod (People Playground × Garry's Mod)</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<!-- TOP BAR -->
+<header id="topbar">
+  <div class="brand">
+    <span class="logo">🧪</span>
+    <div>
+      <div class="title">SANDBOX 2D <span class="sub">Playground Mod</span></div>
+      <div class="tagline">People Playground gore × Garry's Mod toolgun</div>
+    </div>
+  </div>
+  <div class="stats">
+    <span id="stat-fps" title="Frames per second">60 fps</span>
+    <span id="stat-bodies" title="Physics bodies">0 bodies</span>
+    <span id="stat-ents" title="Entities">0 ents</span>
+  </div>
+  <div class="top-actions">
+    <select id="map-select" title="Map">
+      <option value="lab">🧪 Lab</option>
+      <option value="sky">☁️ Sky Yard</option>
+      <option value="void">🌌 Void</option>
+      <option value="course">🏗️ Course</option>
+    </select>
+    <button id="btn-pause" title="Pause / resume [Space]">⏸ Pause</button>
+    <button id="btn-slowmo" title="Slow motion [G]">🐌 Slow-mo</button>
+    <button id="btn-sound" title="Mute / unmute">🔊</button>
+    <button id="btn-riot" title="Spawn a crowd of humans">👥 Riot</button>
+    <button id="btn-battle" title="Spawn humans + grenades everywhere">💥 Battle</button>
+    <button id="btn-clear-debris" title="Clear blood, gibs, particles [C clears debris]">🧹 Debris</button>
+    <button id="btn-clear-all" title="Remove all entities [Shift+X]">🗑 Clear</button>
+    <button id="btn-save" title="Save scene">💾 Save</button>
+    <button id="btn-load" title="Load scene">📂 Load</button>
+    <button id="btn-help" title="Help [H]">❓</button>
+  </div>
+</header>
+
+<!-- LEFT: SPAWN MENU -->
+<aside id="spawn-dock">
+  <div class="dock-title">📦 SPAWN <span class="hint">click, then click world · R rotates · right-click cancels</span></div>
+  <div class="spawn-tabs">
+    <button class="spawn-tab active" data-tab="people">🧍 People</button>
+    <button class="spawn-tab" data-tab="props">📦 Props</button>
+  </div>
+  <div id="spawn-list"></div>
+</aside>
+
+<!-- RIGHT: TOOLGUN -->
+<aside id="tool-dock">
+  <div class="dock-title">🔫 TOOLGUN <span class="hint">keys 1–0, Q–M</span></div>
+  <div id="tool-list"></div>
+</aside>
+
+<!-- BOTTOM BAR -->
+<footer id="bottombar">
+  <div id="tool-info"><b id="tool-name">Physgun</b><span id="tool-desc"></span></div>
+  <div class="sliders">
+    <label>🌍 Gravity <input id="gravity" type="range" min="0" max="2" step="0.05" value="1" /></label>
+    <label>⏱ Speed <input id="timescale" type="range" min="0.1" max="2" step="0.05" value="1" /></label>
+  </div>
+  <div id="hover-info">—</div>
+</footer>
+
+<div id="toast-wrap"></div>
+
+<!-- HELP MODAL -->
+<div id="help-modal" class="hidden">
+  <div class="help-card">
+    <h2>🧪 Sandbox 2D — how to play</h2>
+    <p><b>People Playground meets Garry's Mod, in 2D.</b> Spawn ragdolls & props, grab them with the
+    physgun, weld / rope / balloon contraptions, then test with guns, swords, grenades and fire.</p>
+    <div class="help-grid">
+      <div>
+        <h3>🖱️ Mouse</h3>
+        <ul>
+          <li><b>Left click</b> — use current tool</li>
+          <li><b>Right click</b> — tool alt-action (unweld, unfreeze, cancel ghost)</li>
+          <li><b>Wheel</b> — zoom · while physgunning: rotate held object</li>
+          <li><b>Middle-drag / WASD / arrows</b> — pan camera</li>
+        </ul>
+      </div>
+      <div>
+        <h3>⌨️ Keys</h3>
+        <ul>
+          <li><b>1–0</b> tools · <b>Q/E/R/T</b> guns · <b>Z/X/C/V</b> melee &amp; thrown</li>
+          <li><b>Space</b> pause · <b>G</b> slow-mo · <b>F</b> freeze hovered · <b>Del</b> remove hovered</li>
+          <li><b>R</b> rotate spawn ghost · <b>H</b> help · <b>M</b> extinguisher</li>
+        </ul>
+      </div>
+      <div>
+        <h3>🔫 Toolgun highlights</h3>
+        <ul>
+          <li><b>Physgun</b> — drag bodies, wheel rotates, right-click freezes</li>
+          <li><b>Weld / Rope</b> — click two bodies to link, right-click to cut</li>
+          <li><b>Balloon / Thruster</b> — click a prop to attach flying power</li>
+          <li><b>Guns</b> fire from your gunship muzzle (bottom of view) — aim with the laser</li>
+        </ul>
+      </div>
+      <div>
+        <h3>🩸 Playground highlights</h3>
+        <ul>
+          <li>Humans bleed, burn, gib and die. Androids leak oil. Zombies chase the living.</li>
+          <li>Red barrels explode. Glass shatters. Grenades &amp; molotovs start fires.</li>
+          <li>Build a turret, weld it to a crate, strap balloons on and rule the lab.</li>
+        </ul>
+      </div>
+    </div>
+    <button id="btn-close-help">Close</button>
+  </div>
+</div>
+
+<div id="fatal" class="hidden"></div>
+
+<script src="matter.min.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
